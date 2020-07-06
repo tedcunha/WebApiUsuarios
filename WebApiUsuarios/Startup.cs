@@ -10,7 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebApiUsuarios.Business.Implementations;
+using WebApiUsuarios.Business.Interface;
 using WebApiUsuarios.Model.Context;
+using WebApiUsuarios.Repositorio.Generico;
+using WebApiUsuarios.Repositorio.Generico.Interface;
 
 namespace WebApiUsuarios
 {
@@ -34,6 +38,14 @@ namespace WebApiUsuarios
             #endregion
 
             services.AddControllers();
+
+            #region "INJEÇÃO DE DEPENDENCIA"
+            // Business
+            services.AddScoped<IUsuariosBusiness, UsuariosBusinessImpl>();
+
+            // Repository
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
