@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Tapioca.HATEOAS;
 using WebApiUsuarios.Business.Interface;
 using WebApiUsuarios.DataConverter.VO;
-using WebApiUsuarios.Model.Entidades;
 
 namespace WebApiUsuarios.Controllers
 {
@@ -15,7 +11,6 @@ namespace WebApiUsuarios.Controllers
     [Route("[controller]")]
     public class UsuariosController : ControllerBase
     {
-
         private readonly ILogger<UsuariosController> _logger;
         private readonly IUsuariosBusiness _usuariosBusiness;
 
@@ -27,6 +22,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpGet("PesquisarUsuarios")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult PesquisarUsuarios()
         {
             var retorno = _usuariosBusiness.Pesquisar();
@@ -38,6 +34,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpGet("PesquisarUsuariosPorID/{Id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult PesquisarUsuariosPorID(long Id)
         {
             try
@@ -56,6 +53,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpPost("CadastrarUsuarios")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult CadastrarUsuarios([FromBody] UsuariosVO usuarios)
         {
             try
@@ -73,6 +71,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpPut("AlterarUsuarios")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult AlterarUsuarios([FromBody] UsuariosVO usuarios)
         {
             try
@@ -90,6 +89,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpDelete("DeletarUsuarios/{Id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult DeletarUsuarios(long Id)
         {
             try

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Tapioca.HATEOAS;
 
 namespace WebApiUsuarios.DataConverter.VO
 {
     [DataContract]
-    public class UsuariosVO
+    public class UsuariosVO : ISupportsHyperMedia
     {
         [DataMember(Order = 1)]
         public long? Id { get; set; }
@@ -25,5 +26,7 @@ namespace WebApiUsuarios.DataConverter.VO
         public string Email { get; set; }
         [DataMember(Order = 8)]
         public string Senha { get; set; }
+        [DataMember(Order = 9)]
+        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }

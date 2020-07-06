@@ -10,8 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Tapioca.HATEOAS;
 using WebApiUsuarios.Business.Implementations;
 using WebApiUsuarios.Business.Interface;
+using WebApiUsuarios.HyperMidia;
 using WebApiUsuarios.Model.Context;
 using WebApiUsuarios.Repositorio.Generico;
 using WebApiUsuarios.Repositorio.Generico.Interface;
@@ -39,6 +41,14 @@ namespace WebApiUsuarios
 
             services.AddControllers();
 
+            #region "HATOAS"
+            //HATOAS
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new UsuariosEnricher());
+            services.AddSingleton(filterOptions);
+            #endregion
+
+
             #region "INJEÇÃO DE DEPENDENCIA"
             // Business
             services.AddScoped<IUsuariosBusiness, UsuariosBusinessImpl>();
@@ -60,10 +70,18 @@ namespace WebApiUsuarios
 
             app.UseAuthorization();
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+
+            #region "HATOAS"
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=Values}/{id?}");
             });
+            #endregion
         }
     }
 }
