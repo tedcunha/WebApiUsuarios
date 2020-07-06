@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Tapioca.HATEOAS;
@@ -22,6 +23,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpGet("PesquisarUsuarios")]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult PesquisarUsuarios()
         {
@@ -34,6 +36,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpGet("PesquisarUsuariosPorID/{Id}")]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult PesquisarUsuariosPorID(long Id)
         {
@@ -71,6 +74,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpPut("AlterarUsuarios")]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult AlterarUsuarios([FromBody] UsuariosVO usuarios)
         {
@@ -89,6 +93,7 @@ namespace WebApiUsuarios.Controllers
         }
 
         [HttpDelete("DeletarUsuarios/{Id}")]
+        [Authorize("Bearer")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult DeletarUsuarios(long Id)
         {
