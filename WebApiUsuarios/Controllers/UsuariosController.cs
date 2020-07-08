@@ -63,6 +63,14 @@ namespace WebApiUsuarios.Controllers
             return Ok(_usuariosBusiness.PesquisarPorNomeSobrenome(firstname, lastname));
         }
 
+        [HttpGet("PesquisaPaginada/{sortDirection}/{pageSize}/{page}")]
+        [Authorize("Bearer")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult PesquisaPaginada([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return new ObjectResult(_usuariosBusiness.PesquisardComPaginacao(name, sortDirection, pageSize, page));
+        }
+
         [HttpPost("CadastrarUsuarios")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult CadastrarUsuarios([FromBody] UsuariosVO usuarios)

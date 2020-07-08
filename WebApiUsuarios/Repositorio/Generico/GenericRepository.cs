@@ -78,5 +78,26 @@ namespace WebApiUsuarios.Repositorio.Generico
         {
             return dataset.SingleOrDefault(u => u.Id == Id);
         }
+
+        public List<T> PesquisardComPaginacao(string query)
+        {
+            return dataset.FromSqlRaw<T>(query).ToList();
+        }
+
+        public int RetornaQtdeRegistros(string query)
+        {
+            var result = "";
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+            return Int32.Parse(result);
+        }
+
     }
 }

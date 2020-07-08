@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tapioca.HATEOAS.Utils;
 using WebApiUsuarios.Business.Interface;
 using WebApiUsuarios.DataConverter.Converters;
 using WebApiUsuarios.DataConverter.VO;
@@ -98,6 +99,38 @@ namespace WebApiUsuarios.Business.Implementations
         public List<UsuariosVO> PesquisarPorNomeSobrenome(string firstname, string lastname)
         {
             return _converter.ParseList(_repository.PesquisarPorNomeSobrenome(firstname, lastname));
+        }
+
+        public PagedSearchDTO<UsuariosVO> PesquisardComPaginacao(string name, string sortDirection, int pageSize, int page)
+        {
+            page = page > 0 ? page - 1 : 0;
+
+            // Select da Paginação
+            string query = "Select * From usuarios p ";
+            query += "Where 1 = 1 ";
+            if (!string.IsNullOrEmpty(name))
+            {
+                query += $"and p.Nome like '%{name}%' ";
+            }
+            query += $"Order By p.Nome {sortDirection} limit {pageSize} offset {page}";
+            var pessoa = _converter.ParseList(_repository.PesquisardComPaginacao(query));
+
+            // Pegando o Total de Registros
+            string countQuery = "Select Count(*) as Qtde From usuarios p Where 1 = 1 ";
+            if (!string.IsNullOrEmpty(name))
+            {
+                countQuery += $"and p.Nome like '%{name}%'";
+            }
+            var totalRegistros = _repository.RetornaQtdeRegistros(countQuery);
+
+            return new PagedSearchDTO<UsuariosVO>
+            {
+                CurrentPage = page + 1,
+                List = pessoa,
+                PageSize = pageSize,
+                SortDirections = sortDirection,
+                TotalResults = totalRegistros
+            };
         }
     }
 }

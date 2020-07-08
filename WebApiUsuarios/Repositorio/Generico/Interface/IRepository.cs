@@ -13,5 +13,7 @@ namespace WebApiUsuarios.Repositorio.Generico.Interface
         T Cadastrar(T item);
         T Alterar(T item);
         void Deletar(long Id);
+        List<T> PesquisardComPaginacao(string query);
+        int RetornaQtdeRegistros(string query);
     }
 }
