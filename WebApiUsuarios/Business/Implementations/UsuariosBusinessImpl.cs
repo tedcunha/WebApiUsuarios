@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApiUsuarios.Business.Interface;
 using WebApiUsuarios.DataConverter.Converters;
 using WebApiUsuarios.DataConverter.VO;
 using WebApiUsuarios.Model;
-using WebApiUsuarios.Model.Entidades;
-using WebApiUsuarios.Repositorio.Generico.Interface;
+using WebApiUsuarios.Repositorio.Interfaces;
 
 namespace WebApiUsuarios.Business.Implementations
 {
     public class UsuariosBusinessImpl : IUsuariosBusiness
     {
-        private readonly IRepository<Usuarios> _repository;
+        private readonly IUsuariosRepository _repository;
         private readonly UsuariosConverter _converter;
 
-        public UsuariosBusinessImpl(IRepository<Usuarios> repository)
+        public UsuariosBusinessImpl(IUsuariosRepository repository)
         {
             _repository = repository;
             _converter = new UsuariosConverter();
@@ -96,6 +93,11 @@ namespace WebApiUsuarios.Business.Implementations
         public UsuariosVO PesquisarPorID(long Id)
         {
             return _converter.Parse(_repository.PesquisarPorID(Id));
+        }
+
+        public List<UsuariosVO> PesquisarPorNomeSobrenome(string firstname, string lastname)
+        {
+            return _converter.ParseList(_repository.PesquisarPorNomeSobrenome(firstname, lastname));
         }
     }
 }

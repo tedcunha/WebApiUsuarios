@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiUsuarios.DataConverter.VO;
 using WebApiUsuarios.Model;
+using WebApiUsuarios.Model.Entidades;
 
 namespace WebApiUsuarios.Business.Interface
 {
@@ -11,6 +12,7 @@ namespace WebApiUsuarios.Business.Interface
     {
         List<UsuariosVO> Pesquisar();
         UsuariosVO PesquisarPorID(long Id);
+        List<UsuariosVO> PesquisarPorNomeSobrenome(string firstname, string lastname);
         Menssagem Cadastrar(UsuariosVO usuarios);
         Menssagem Alterar(UsuariosVO usuarios);
         Menssagem Deletar(long Id);

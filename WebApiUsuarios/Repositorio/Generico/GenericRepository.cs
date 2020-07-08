@@ -11,7 +11,7 @@ namespace WebApiUsuarios.Repositorio.Generico
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly MySqlContext _context;
+        protected readonly MySqlContext _context;
         private DbSet<T> dataset;
 
         public GenericRepository(MySqlContext context)

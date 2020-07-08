@@ -55,6 +55,14 @@ namespace WebApiUsuarios.Controllers
             }
         }
 
+        [HttpGet("PesquisarPorNomeSobrenome")]
+        [Authorize("Bearer")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult PesquisarPorNomeSobrenome([FromQuery] string firstname, [FromQuery] string lastname)
+        {
+            return Ok(_usuariosBusiness.PesquisarPorNomeSobrenome(firstname, lastname));
+        }
+
         [HttpPost("CadastrarUsuarios")]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult CadastrarUsuarios([FromBody] UsuariosVO usuarios)

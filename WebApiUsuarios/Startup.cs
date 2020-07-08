@@ -105,6 +105,7 @@ namespace WebApiUsuarios
 
             //Repsitorio Especifico
             services.AddScoped<ILoginRepository, LoginRepositoryImpl>();
+            services.AddScoped<IUsuariosRepository, UsuariosRepositoryImpl>();
 
             // Repositorio Genetico
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
